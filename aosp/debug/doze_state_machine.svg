@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 700" width="790" height="700" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#37474f"/>
+    </marker>
+    <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8d6e63"/>
+    </marker>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="790" height="700" fill="#ffffff"/>
+  <text x="24" y="28" font-size="14" font-weight="600" fill="#263238">Deep doze state machine</text>
+  <text x="24" y="44" font-size="10.5" fill="#78909c">DeviceIdleController.mState &#8212; read it with: adb shell dumpsys deviceidle get deep</text>
+
+  <!-- ================= doze zone ================= -->
+  <rect x="158" y="498" width="234" height="172" rx="8" fill="#fff5f5" stroke="#ef9a9a" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="275" y="516" text-anchor="middle" font-size="9.5" font-weight="600" fill="#c62828">DOZE IS ACTIVE HERE</text>
+
+  <!-- ================= main flow boxes ================= -->
+  <!-- ACTIVE -->
+  <rect x="180" y="56" width="190" height="48" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.4"/>
+  <text x="275" y="77" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#1b5e20">ACTIVE</text>
+  <text x="275" y="92" text-anchor="middle" font-size="9.5" fill="#4e6e52">not dozing &#8212; no restrictions</text>
+
+  <!-- INACTIVE -->
+  <rect x="180" y="148" width="190" height="48" rx="6" fill="#eceff1" stroke="#607d8b" stroke-width="1.2"/>
+  <text x="275" y="169" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#37474f">INACTIVE</text>
+  <text x="275" y="184" text-anchor="middle" font-size="9.5" fill="#78909c">screen just went off, waiting</text>
+
+  <!-- IDLE_PENDING -->
+  <rect x="180" y="240" width="190" height="48" rx="6" fill="#eceff1" stroke="#607d8b" stroke-width="1.2"/>
+  <text x="275" y="261" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#37474f">IDLE_PENDING</text>
+  <text x="275" y="276" text-anchor="middle" font-size="9.5" fill="#78909c">significant motion monitoring on</text>
+
+  <!-- SENSING -->
+  <rect x="180" y="332" width="190" height="48" rx="6" fill="#eceff1" stroke="#607d8b" stroke-width="1.2"/>
+  <text x="275" y="353" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#37474f">SENSING</text>
+  <text x="275" y="368" text-anchor="middle" font-size="9.5" fill="#78909c">is the device stationary?</text>
+
+  <!-- LOCATING -->
+  <rect x="180" y="424" width="190" height="48" rx="6" fill="#eceff1" stroke="#607d8b" stroke-width="1.2"/>
+  <text x="275" y="445" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#37474f">LOCATING</text>
+  <text x="275" y="460" text-anchor="middle" font-size="9.5" fill="#78909c">one last location fix</text>
+
+  <!-- IDLE -->
+  <rect x="180" y="524" width="190" height="48" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="1.6"/>
+  <text x="275" y="545" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#b71c1c">IDLE</text>
+  <text x="275" y="560" text-anchor="middle" font-size="9.5" fill="#8e3b3b">alarms / jobs / sync / network off</text>
+
+  <!-- IDLE_MAINTENANCE -->
+  <rect x="180" y="608" width="190" height="48" rx="6" fill="#fdecea" stroke="#c62828" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="275" y="629" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#b71c1c">IDLE_MAINTENANCE</text>
+  <text x="275" y="644" text-anchor="middle" font-size="9.5" fill="#8e3b3b">short window, apps may run</text>
+
+  <!-- QUICK_DOZE_DELAY -->
+  <rect x="560" y="240" width="190" height="48" rx="6" fill="#fff8e1" stroke="#f9a825" stroke-width="1.3"/>
+  <text x="655" y="261" text-anchor="middle" font-size="13" font-weight="600" font-family="Consolas, monospace" fill="#8d6e00">QUICK_DOZE_DELAY</text>
+  <text x="655" y="276" text-anchor="middle" font-size="9.5" fill="#a1861f">no motion / location check</text>
+
+  <!-- ================= main flow arrows ================= -->
+  <path d="M275,104 L275,142" stroke="#37474f" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="382" y="120" font-size="9.5" font-family="Consolas, monospace" fill="#37474f">screen off AND not charging</text>
+  <text x="382" y="132" font-size="8.5" fill="#90a4ae">becomeInactiveIfAppropriateLocked()</text>
+
+  <path d="M275,196 L275,234" stroke="#37474f" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="382" y="212" font-size="9.5" font-family="Consolas, monospace" fill="#37474f">30 min</text>
+  <text x="382" y="224" font-size="8.5" fill="#90a4ae">INACTIVE_TIMEOUT</text>
+
+  <path d="M275,288 L275,326" stroke="#37474f" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="382" y="304" font-size="9.5" font-family="Consolas, monospace" fill="#37474f">30 min</text>
+  <text x="382" y="316" font-size="8.5" fill="#90a4ae">IDLE_AFTER_INACTIVE_TIMEOUT</text>
+
+  <path d="M275,380 L275,418" stroke="#37474f" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="382" y="396" font-size="9.5" font-family="Consolas, monospace" fill="#37474f">max 4 min</text>
+  <text x="382" y="408" font-size="8.5" fill="#90a4ae">SENSING_TIMEOUT &#8212; needs mNotMoving</text>
+
+  <path d="M275,472 L275,518" stroke="#37474f" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="382" y="490" font-size="9.5" font-family="Consolas, monospace" fill="#37474f">30 s</text>
+  <text x="382" y="502" font-size="8.5" fill="#90a4ae">LOCATING_TIMEOUT</text>
+
+  <!-- IDLE <-> IDLE_MAINTENANCE -->
+  <path d="M240,572 L240,602" stroke="#c62828" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+  <path d="M310,602 L310,572" stroke="#c62828" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+  <text x="400" y="582" font-size="9.5" font-family="Consolas, monospace" fill="#37474f">60 min, x2 each cycle</text>
+  <text x="400" y="594" font-size="8.5" fill="#90a4ae">IDLE_TIMEOUT &#215; IDLE_FACTOR</text>
+  <text x="400" y="612" font-size="8.5" fill="#90a4ae">maintenance window ends &#8594; back to IDLE</text>
+
+  <!-- ================= quick doze shortcut ================= -->
+  <path d="M370,80 L655,80 L655,234" stroke="#8d6e63" stroke-width="1.4" fill="none" marker-end="url(#arg)"/>
+  <text x="384" y="70" font-size="9" font-family="Consolas, monospace" fill="#8d6e63">Quick Doze enabled (e.g. Battery Saver)</text>
+
+  <path d="M655,288 L655,550 L376,550" stroke="#8d6e63" stroke-width="1.4" fill="none" marker-end="url(#arg)"/>
+  <text x="646" y="330" text-anchor="end" font-size="9" font-family="Consolas, monospace" fill="#8d6e63">60 s</text>
+  <text x="646" y="342" text-anchor="end" font-size="8.5" fill="#a1887f">QUICK_DOZE_DELAY_TIMEOUT</text>
+  <text x="646" y="358" text-anchor="end" font-size="8.5" fill="#a1887f">skips IDLE_PENDING / SENSING / LOCATING</text>
+
+  <!-- ================= skip: no location provider ================= -->
+  <path d="M370,356 L530,356 L530,536 L376,536" stroke="#90a4ae" stroke-width="1.3" fill="none" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+  <text x="538" y="440" font-size="8.5" fill="#90a4ae">skip if no location</text>
+  <text x="538" y="452" font-size="8.5" fill="#90a4ae">provider available</text>
+
+  <!-- note: sensing fall-through -->
+  <text x="176" y="322" text-anchor="end" font-size="8.5" fill="#90a4ae">passes straight</text>
+  <text x="176" y="334" text-anchor="end" font-size="8.5" fill="#90a4ae">through if there is</text>
+  <text x="176" y="346" text-anchor="end" font-size="8.5" fill="#90a4ae">no motion sensor</text>
+
+  <!-- ================= return to ACTIVE ================= -->
+  <path d="M158,640 L100,640 L100,80 L174,80" stroke="#2e7d32" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+  <text x="92" y="380" text-anchor="middle" font-size="9.5" font-weight="600" font-family="Consolas, monospace" fill="#2e7d32" transform="rotate(-90 92 380)">becomeActiveLocked() &#8212; from ANY state</text>
+  <text x="80" y="380" text-anchor="middle" font-size="8.5" fill="#66a06a" transform="rotate(-90 80 380)">screen on / charging / motion / unlock</text>
+</svg>
