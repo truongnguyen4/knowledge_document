@@ -63,19 +63,19 @@ source ~/.zshrc
 `agnoster`, `robbyrussell`, `avit`, `bira`, `ys`.
 
 *Agnoster Theme* — powerline segments for user, host, path, and Git branch.
-![Oh My Zsh agnoster theme](./zsh_theme_agnoster.jpg)
+![Oh My Zsh agnoster theme](./resources/zsh_theme_agnoster.jpg)
 
 *Robbyrussell Theme* — the Oh My Zsh default, a single arrow with the Git branch.
-![Oh My Zsh robbyrussell theme](./zsh_theme_robbyrussell.jpg)
+![Oh My Zsh robbyrussell theme](./resources/zsh_theme_robbyrussell.jpg)
 
 *Avit Theme* — two lines, with the Git branch and the session time on the right.
-![Oh My Zsh avit theme](./zsh_theme_avit.jpg)
+![Oh My Zsh avit theme](./resources/zsh_theme_avit.jpg)
 
 *Bira Theme* — two lines, with user, host, path, virtualenv, and Git branch.
-![Oh My Zsh bira theme](./zsh_theme_bira.jpg)
+![Oh My Zsh bira theme](./resources/zsh_theme_bira.jpg)
 
 *Ys Theme* — one information line with a timestamp, and a bare `$` prompt below.
-![Oh My Zsh ys theme](./zsh_theme_ys.jpg)
+![Oh My Zsh ys theme](./resources/zsh_theme_ys.jpg)
 
 ### 5. Powerlevel10k built-in themes
 Oh My Zsh ships around 150 built-in themes. Choose `Powerlevel10k` for a highly customizable and fast prompt.
@@ -114,10 +114,10 @@ source ~/.zshrc
 ```
 
 *Lean, Classic and Rainbow* — `p10k-lean.zsh`, `p10k-classic.zsh`, and `p10k-rainbow.zsh`. A `p10k-lean-8colors.zsh` variant restricts Lean to the 8 base terminal colours.
-![Powerlevel10k lean, classic and rainbow styles](./zsh_theme_p10k_styles.png)
+![Powerlevel10k lean, classic and rainbow styles](./resources/zsh_theme_p10k_styles.png)
 
 *Pure* — `p10k-pure.zsh` reproduces the **Pure** prompt.
-![Powerlevel10k pure style](./zsh_theme_p10k_pure.gif)
+![Powerlevel10k pure style](./resources/zsh_theme_p10k_pure.gif)
 
 *Robbyrussell* — `p10k-robbyrussell.zsh` reproduces the Oh My Zsh default prompt.
-![Powerlevel10k theme emulation](./zsh_theme_p10k_emulation.gif)
+![Powerlevel10k theme emulation](./resources/zsh_theme_p10k_emulation.gif)

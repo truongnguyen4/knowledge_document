@@ -8,7 +8,7 @@ Doze runs on two independent state machines, both owned by `DeviceIdleController
 | **Light doze** | Screen off + not charging | Defers jobs and syncs, restricts network for background apps. Reaches `IDLE` ~4 min after the screen goes off. |
 | **Deep doze** | Screen off + not charging + **stationary** (no motion) | Full restrictions: alarms, jobs, syncs, network, wake locks. Takes ~1 hour of no motion. |
 
-![Deep doze state machine](./doze_state_machine.svg)
+![Deep doze state machine](./resources/battery_doze_state_machine.svg)
 
 > Device go through several states before actually entering doze. 
 > Only **`IDLE`** and **`IDLE_MAINTENANCE`** (the red zone) are actually "in doze". Everything before that is just waiting and checking conditions — no restriction is applied yet. Timings are the AOSP defaults; a vendor build can override them.

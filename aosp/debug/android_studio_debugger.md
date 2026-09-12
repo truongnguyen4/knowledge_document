@@ -73,7 +73,7 @@ The debugger needs the **same source code** as the one built into the image.
 ## 4. Breakpoints
 Click the gutter next to a line to set a breakpoint, then right-click it and choose **More** to open the settings dialog.
 
-![Breakpoint settings dialog](./break_point.png)
+![Breakpoint settings dialog](./resources/debugger_break_point.png)
 
 | Option | Description |
 | --- | --- |
@@ -92,12 +92,12 @@ Click the gutter next to a line to set a breakpoint, then right-click it and cho
 
 The output appears in the **Debug > Console** tab.
 
-![Breakpoint log output](./log_output.png)
+![Breakpoint log output](./resources/debugger_log_output.png)
 
 ## 5. Evaluate and Log
 **Evaluate and log** runs Java code at the breakpoint, so a variable can be changed and a log printed **without rebuilding the source**.
 
-![Evaluate and log field](./evaluate.png)
+![Evaluate and log field](./resources/debugger_evaluate.png)
 
 ```java
 mWakeUpWhenPluggedOrUnpluggedConfig = true;
