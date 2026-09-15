@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 620" width="880" height="620" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#37474f"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="880" height="620" fill="#ffffff"/>
+  <text x="24" y="28" font-size="14" font-weight="600" fill="#263238">Kernel-related partitions &#8212; what each one contains</text>
+  <text x="24" y="46" font-size="10.5" fill="#78909c">QCM4490 (parrot), GKI mixed build</text>
+
+  <!-- ================= boot.img ================= -->
+  <rect x="32" y="66" width="392" height="176" rx="8" fill="#eceff1" stroke="#90a4ae" stroke-width="1.5"/>
+  <text x="48" y="90" font-size="13" font-weight="600" fill="#37474f">boot.img</text>
+  <text x="408" y="90" font-size="10" font-weight="600" fill="#b0480f" text-anchor="end">PREBUILT GKI</text>
+  <line x1="48" y1="100" x2="408" y2="100" stroke="#b0bec5" stroke-width="1"/>
+  <text x="48" y="122" font-size="11.5" fill="#37474f">&#8226; Kernel <tspan font-family="Consolas, monospace">Image</tspan> &#8212; core + every <tspan font-family="Consolas, monospace">=y</tspan> built-in</text>
+  <text x="48" y="144" font-size="11.5" fill="#37474f">&#8226; Generic ramdisk &#8212; first-stage <tspan font-family="Consolas, monospace">init</tspan></text>
+  <rect x="48" y="160" width="360" height="66" rx="5" fill="#ffffff" stroke="#cfd8dc" stroke-width="1"/>
+  <text x="60" y="180" font-size="10.5" font-weight="600" fill="#b0480f">DL_USE_PREBUILT_GKI = true (default)</text>
+  <text x="60" y="198" font-size="10.5" fill="#546e7a">Google&#8217;s <tspan font-family="Consolas, monospace">vendor/google/gki/boot.img</tspan> is flashed,</text>
+  <text x="60" y="215" font-size="10.5" fill="#546e7a">the locally built one is discarded &#8594; <tspan font-weight="600">=y changes have no effect</tspan></text>
+
+  <!-- ================= vendor_boot.img ================= -->
+  <rect x="456" y="66" width="392" height="176" rx="8" fill="#e3f2fd" stroke="#64b5f6" stroke-width="1.5"/>
+  <text x="472" y="90" font-size="13" font-weight="600" fill="#1565c0">vendor_boot.img</text>
+  <text x="832" y="90" font-size="10" font-weight="600" fill="#1565c0" text-anchor="end">FIRST STAGE</text>
+  <line x1="472" y1="100" x2="832" y2="100" stroke="#90caf9" stroke-width="1"/>
+  <text x="472" y="122" font-size="11.5" fill="#0d47a1">&#8226; <tspan font-weight="600">DTB</tspan> &#8212; compiled device trees (<tspan font-family="Consolas, monospace">.dtb</tspan>)</text>
+  <text x="472" y="144" font-size="11.5" fill="#0d47a1">&#8226; Vendor ramdisk</text>
+  <text x="472" y="166" font-size="11.5" fill="#0d47a1">&#8226; First-stage modules (<tspan font-family="Consolas, monospace">.ko</tspan>) + <tspan font-family="Consolas, monospace">modules.load</tspan></text>
+  <rect x="472" y="182" width="360" height="44" rx="5" fill="#ffffff" stroke="#bbdefb" stroke-width="1"/>
+  <text x="484" y="201" font-size="10.5" fill="#546e7a">Which modules: <tspan font-family="Consolas, monospace">out/msm-kernel/modules.list.msm.parrot</tspan></text>
+  <text x="484" y="218" font-size="10.5" fill="#546e7a">Storage / display / clocks &#8212; whatever is needed to mount <tspan font-family="Consolas, monospace">/vendor</tspan></text>
+
+  <!-- ================= vendor_dlkm.img ================= -->
+  <rect x="32" y="266" width="392" height="164" rx="8" fill="#e8f5e9" stroke="#81c784" stroke-width="1.5"/>
+  <text x="48" y="290" font-size="13" font-weight="600" fill="#2e7d32">vendor_dlkm.img</text>
+  <text x="408" y="290" font-size="10" font-weight="600" fill="#2e7d32" text-anchor="end">SECOND STAGE</text>
+  <line x1="48" y1="300" x2="408" y2="300" stroke="#a5d6a7" stroke-width="1"/>
+  <text x="48" y="322" font-size="11.5" fill="#1b5e20">&#8226; All remaining vendor modules (<tspan font-family="Consolas, monospace">.ko</tspan>)</text>
+  <text x="48" y="344" font-size="11.5" fill="#1b5e20">&#8226; <tspan font-family="Consolas, monospace">modules.load</tspan> + <tspan font-family="Consolas, monospace">modules.blocklist</tspan></text>
+  <rect x="48" y="360" width="360" height="54" rx="5" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+  <text x="60" y="379" font-size="10.5" fill="#546e7a">Mounted at <tspan font-family="Consolas, monospace">/vendor/lib/modules</tspan>, loaded once <tspan font-family="Consolas, monospace">/vendor</tspan> is up</text>
+  <text x="60" y="397" font-size="10.5" fill="#546e7a">Blocklist: <tspan font-family="Consolas, monospace">modules.vendor_blocklist.msm.parrot</tspan></text>
+
+  <!-- ================= dtbo.img ================= -->
+  <rect x="456" y="266" width="392" height="164" rx="8" fill="#fff8e1" stroke="#ffb74d" stroke-width="1.5"/>
+  <text x="472" y="290" font-size="13" font-weight="600" fill="#e65100">dtbo.img</text>
+  <text x="832" y="290" font-size="10" font-weight="600" fill="#e65100" text-anchor="end">OVERLAYS</text>
+  <line x1="472" y1="300" x2="832" y2="300" stroke="#ffe0b2" stroke-width="1"/>
+  <text x="472" y="322" font-size="11.5" fill="#e65100">&#8226; Device tree overlays (<tspan font-family="Consolas, monospace">.dtbo</tspan>), one per variant</text>
+  <rect x="472" y="338" width="360" height="76" rx="5" fill="#ffffff" stroke="#ffe0b2" stroke-width="1"/>
+  <text x="484" y="357" font-size="10.5" fill="#546e7a">The bootloader picks the matching <tspan font-family="Consolas, monospace">.dtbo</tspan> and merges it</text>
+  <text x="484" y="374" font-size="10.5" fill="#546e7a">onto the <tspan font-weight="600">DTB</tspan> from <tspan font-family="Consolas, monospace">vendor_boot.img</tspan>, then hands the</text>
+  <text x="484" y="391" font-size="10.5" fill="#546e7a">merged tree to the kernel &#8212; see <tspan font-family="Consolas, monospace">device_tree.md</tspan></text>
+  <text x="484" y="408" font-size="10.5" fill="#546e7a">Inspect at runtime: <tspan font-family="Consolas, monospace">/sys/firmware/fdt</tspan></text>
+
+  <!-- ================= boot order strip ================= -->
+  <rect x="32" y="462" width="816" height="126" rx="8" fill="#fafafa" stroke="#cfd8dc" stroke-width="1.2"/>
+  <text x="48" y="486" font-size="12" font-weight="600" fill="#37474f">Boot order</text>
+
+  <rect x="48" y="500" width="150" height="46" rx="6" fill="#ffffff" stroke="#b0bec5" stroke-width="1.2"/>
+  <text x="123" y="521" font-size="11" font-weight="600" fill="#37474f" text-anchor="middle">Bootloader</text>
+  <text x="123" y="537" font-size="9.5" fill="#78909c" text-anchor="middle">dtb + dtbo &#8594; merge</text>
+
+  <rect x="238" y="500" width="150" height="46" rx="6" fill="#eceff1" stroke="#90a4ae" stroke-width="1.2"/>
+  <text x="313" y="521" font-size="11" font-weight="600" fill="#37474f" text-anchor="middle">boot.img</text>
+  <text x="313" y="537" font-size="9.5" fill="#78909c" text-anchor="middle">kernel + init</text>
+
+  <rect x="428" y="500" width="160" height="46" rx="6" fill="#e3f2fd" stroke="#64b5f6" stroke-width="1.2"/>
+  <text x="508" y="521" font-size="11" font-weight="600" fill="#1565c0" text-anchor="middle">vendor_boot.img</text>
+  <text x="508" y="537" font-size="9.5" fill="#1976d2" text-anchor="middle">first-stage .ko</text>
+
+  <rect x="628" y="500" width="160" height="46" rx="6" fill="#e8f5e9" stroke="#81c784" stroke-width="1.2"/>
+  <text x="708" y="521" font-size="11" font-weight="600" fill="#2e7d32" text-anchor="middle">vendor_dlkm.img</text>
+  <text x="708" y="537" font-size="9.5" fill="#388e3c" text-anchor="middle">second-stage .ko</text>
+
+  <line x1="198" y1="523" x2="232" y2="523" stroke="#37474f" stroke-width="1.6" marker-end="url(#ap)"/>
+  <line x1="388" y1="523" x2="422" y2="523" stroke="#37474f" stroke-width="1.6" marker-end="url(#ap)"/>
+  <line x1="588" y1="523" x2="622" y2="523" stroke="#37474f" stroke-width="1.6" marker-end="url(#ap)"/>
+
+  <text x="48" y="570" font-size="10.5" fill="#78909c">A module in the wrong stage fails silently: needed early but shipped in <tspan font-family="Consolas, monospace">vendor_dlkm</tspan> &#8594; the device cannot mount <tspan font-family="Consolas, monospace">/vendor</tspan>.</text>
+</svg>
