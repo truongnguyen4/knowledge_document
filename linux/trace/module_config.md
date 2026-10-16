@@ -3,7 +3,6 @@
 Overview notes on how `kernel/kernel_platform` is built: the GKI mixed build, config files, and partitions.
 
 ---
-
 ## 1. Kernel-related partitions
 
 ![Kernel-related partitions and their contents](./resources/kernel_partitions.svg)
@@ -73,43 +72,4 @@ adb shell "cat /vendor/lib/modules/modules.blocklist"
 # first-stage modules (vendor_boot ramdisk, kept in the rootfs after boot)
 adb shell "ls /lib/modules/"
 adb shell "cat /lib/modules/modules.load"
-```
-
-#### Unpack the images
-
-Images come either from the build (`$O/dist/*.img`) or from the device. On an A/B device the `by-name` links carry a slot suffix, so find the active slot first:
-```bash
-# root the shell: adb root on userdebug, su -c on a rooted user build
-adb root
-adb shell getprop ro.boot.slot_suffix     # _a or _b
-adb shell ls -l /dev/block/by-name/ | grep -iE "boot|dtbo"
-```
-
-```bash
-# dump the vendor_boot.img
-adb exec-out "dd if=/dev/block/by-name/vendor_boot_a" > vendor_boot.img
-# unpack it: prints the header, writes vendor_ramdisk + dtb
-unpack_bootimg --boot_img vendor_boot.img --out out_vendor_boot
-ls out_vendor_boot
-# the first-stage modules live inside the ramdisk
-lz4cat out_vendor_boot/vendor_ramdisk | cpio -idmv
-ls out_vendor_boot/lib/modules/
-cat out_vendor_boot/lib/modules/modules.load
-```
-
-```bash
-# dump the vendor_dlkm.img
-adb exec-out "dd if=/dev/block/mapper/vendor_dlkm" > vendor_dlkm.img
-# a dd from the device is already raw ext4; a build output is usually sparse
-file vendor_dlkm.img
-simg2img vendor_dlkm.img vendor_dlkm.raw   # only if file says "Android sparse image"
-# check the contents in vendor_dlkm.img
-debugfs -R "ls -l /lib/modules" vendor_dlkm.raw
-```
-```bash
-# dump boot.img
-adb exec-out "dd if=/dev/block/by-name/boot_a" > boot.img
-# unpack it: writes kernel + generic ramdisk
-unpack_bootimg --boot_img boot.img --out out_boot
-strings out_boot/kernel | grep -m1 "Linux version"
 ```
