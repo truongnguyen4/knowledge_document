@@ -1,0 +1,54 @@
+title USB enumeration and driver binding
+
+participant "bus / device" as device
+participant "HCD (xhci/dwc3)" as HCD
+participant "usbcore / hub thread" as usbcore
+participant "driver (usbhid)" as driver
+
+note right of driver: driver register interface
+
+note over usbcore,driver: Driver registered earlier (module load)
+driver->driver:prepare id_table
+driver->usbcore: **usb_register(&usb_driver)**
+note over usbcore,driver: usbcore keeps driver's **id_table** + probe()
+
+note left of device: device plugged in
+device->HCD: port status change
+HCD->usbcore: hub interrupt URB
+
+usbcore->device: **SET_ADDRESS**
+
+usbcore->device: GET_DESCRIPTOR(**DEVICE**)
+device-->usbcore: VID/PID, class, #config
+
+usbcore->device: GET_DESCRIPTOR(**CONFIG**)
+device-->usbcore: config + interfaces + endpoints
+
+usbcore->usbcore: usb_parse_configuration()
+usbcore->usbcore: usb_choose_configuration()
+
+note left of device: device configured
+usbcore->device: **SET_CONFIGURATION**
+
+usbcore->usbcore: one struct usb_interface per interface
+usbcore->usbcore: device_add(&intf->dev) -> driver core
+
+note over usbcore: Match: interface descriptor <-> **id_table**\n- class/subclass/protocol\n- VID/PID
+usbcore->driver: match found -> **probe(intf)**
+note over usbcore,driver: If driver not registered yet: uevent (MODALIAS)\n-> modprobe -> usb_register() -> match again
+
+driver->HCD: **usb_submit_urb(urb_irq)** IN
+note over driver,HCD: URB queued, HCD polls the endpoint every bInterval
+
+note left of device: Host polling data
+loop every bInterval
+    HCD->device: IN token
+    alt no data
+        device-->HCD: NAK
+    else data ready
+        device-->HCD: data
+        HCD->driver: URB complete callback
+        driver->driver: process data
+        driver->HCD: usb_submit_urb() again
+    end
+end

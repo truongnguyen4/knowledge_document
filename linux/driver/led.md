@@ -22,6 +22,15 @@ echo none > /sys/class/leds/<led_name>/trigger # remove trigger
 | `pattern` | Run a brightness sequence over time (blink, breathing) | `pattern`, `hw_pattern`, `repeat` |
 | `heartbeat` | Heartbeat-like blink, rate follows CPU load | `invert` |
 
+### Enable trigger mode
+```config
+CONFIG_LEDS_TRIGGER_PATTERN
+CONFIG_LEDS_TRIGGER_TIMER
+CONFIG_LEDS_TRIGGER_ONESHOT
+CONFIG_LEDS_TRIGGER_HEARTBEAT
+CONFIG_LEDS_TRIGGER_TRANSIENT
+```
+
 ## 2. Usage
 
 ### timer

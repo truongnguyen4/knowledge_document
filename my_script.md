@@ -160,6 +160,11 @@ kernel/kernel_platform/qcom/proprietary/devicetree/qcom
 
 # DEBUG
 
+## Kernel
+```sh
+mount -t debugfs none /sys/kernel/debug
+```
+
 ## RTC time
 ```sh
 adb shell cat /sys/class/rtc/rtc0/since_epoch
@@ -272,3 +277,13 @@ make O=/aosp/kernel/kernel_platform/out/msm-waipio-parrot-gki/msm-kernel \
 ```
 
 
+# BEAGLEBONE BLACK
+
+### Build module
+```sh
+BR=/media/truongnguyen/1tb/learn/buildroot
+KDIR=$BR/output/build/linux-6.18.1
+export PATH=$BR/output/host/bin:$PATH
+make -C "$KDIR" ARCH=arm CROSS_COMPILE=arm-linux- M=${PWD} modules -j$(nproc)
+
+```
