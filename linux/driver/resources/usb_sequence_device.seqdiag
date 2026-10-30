@@ -1,0 +1,66 @@
+title USB gadget: boot, bind, enumeration and data transfer
+
+participant "host (PC)" as host
+participant "UDC (dwc3 gadget)" as UDC
+participant "composite / configfs" as composite
+participant "function (f_hid)" as func
+participant "userspace" as app
+
+note over UDC,func: kernel boot (built-in / module load)
+UDC->composite: dwc3 probe -> **usb_add_gadget_udc()**\n(/sys/class/udc/<udc>)
+func->composite: **usb_function_register(&hidusb_func)**
+note over composite,func: libcomposite keeps alloc_inst() / alloc_func()
+
+note right of app: gadget setup via configfs
+app->composite: **mkdir** functions/hid.usb0
+composite->func: alloc_inst()
+app->composite: **ln -s** functions/hid.usb0 configs/b.1
+composite->func: alloc_func()
+app->composite: **write <udc> > UDC**
+composite->composite: usb_gadget_register_driver()
+composite->func: **bind(c, f)**
+func->UDC: usb_ep_autoconfig() -> claim EP IN/OUT
+func->func: build fs/hs/ss descriptors
+func->app: create /dev/hidg0
+composite->UDC: udc_start() + usb_gadget_connect()
+UDC->host: **pull-up D+** (soft connect)
+
+note left of host: device plugged in
+
+host->UDC: **SET_ADDRESS**
+note over UDC: handled inside UDC driver\n(gadget driver not involved)
+
+host->UDC: GET_DESCRIPTOR(**DEVICE**)
+UDC->composite: composite_setup()
+composite->UDC: usb_ep_queue(ep0, **device desc**)
+UDC-->host: VID/PID, class, #config
+
+host->UDC: GET_DESCRIPTOR(**CONFIG**)
+UDC->composite: composite_setup()
+composite->composite: config_desc(): collect function descriptors
+composite->UDC: usb_ep_queue(ep0, **config desc**)
+UDC-->host: config + interfaces + endpoints
+
+note left of host: device configured
+host->UDC: **SET_CONFIGURATION**
+UDC->composite: composite_setup() -> set_config()
+composite->func: **set_alt(f, intf, alt)**
+func->UDC: config_ep_by_speed() + **usb_ep_enable(ep_in, ep_out)**
+func->UDC: usb_ep_queue(ep_out, req) (ready to receive)
+
+note left of host: Device sending data
+app->func: **write(/dev/hidg0, report)**
+func->UDC: **usb_ep_queue(ep_in, req)**
+note over UDC,func: request armed, sent on the next IN token
+
+loop every bInterval
+    host->UDC: IN token
+    alt no request queued
+        UDC-->host: NAK
+    else request queued
+        UDC-->host: data
+        host->UDC: ACK
+        UDC->func: req->complete() callback
+        func->app: wake up writer (next write allowed)
+    end
+end
