@@ -69,6 +69,38 @@ make -C $KOUT O=$KOUT M=$(pwd) clean
 | system | `m systemimage` | Y | qssi15/out/target/product/qssi/system.img<br/>qssi17/out/target/product/qssi_64/system.img |
 | system_ext | `m systemextimage` | Y | qssi15/out/target/product/qssi/system_ext.img<br/>qssi17/out/target/product/qssi_64/system_ext.img |
 
+# SOURCE
+
+### LA3.0
+```sh
+# gki config
+kernel/kernel_platform/msm-kernel/arch/arm64/configs/gki_defconfig 
+# vendor config
+kernel/kernel_platform/msm-kernel/arch/arm64/configs/vendor/parrot_GKI.config
+# device tree
+kernel/kernel_platform/qcom/proprietary/devicetree/qcom
+# out
+kernel/kernel_platform/msm-waipio-parrot-gki/dist/.config
+kernel/kernel_platform/msm-waipio-parrot-consolidate/msm-kernel/.config
+```
+
+### LA4.0
+```sh
+# gki config
+kernel/kernel_platform/common/arch/arm64/configs/gki_defconfig
+# vendor config
+kernel/kernel_platform/msm-kernel/arch/arm64/configs/vendor/parrot_perf.config
+# included into vendor_dlkm
+kernel/kernel_platform/msm-kernel/parrot.bzl
+# device tree
+kernel/kernel_platform/qcom/opensource/devicetree/qcom/
+# out
+kernel/kernel_platform/out/msm-kernel-parrot-perf/dist/.config
+# merge config
+perf = gki_defconfig + parrot_perf.config
+consolidate = perf + consolidate.fragment + parrot_consolidate.config
+```
+
 # Flash commands
 
 ### Flash Partitions
@@ -147,25 +179,15 @@ gunzip config.gz
 cat config
 ```
 
-# SOURCE
-
-### Kernel source
-```sh
-msm-kernel/arch/arm64/configs/gki_defconfig 
-msm-kernel/arch/arm64/configs/vendor/parrot_GKI.config 
-kernel/kernel_platform/qcom/proprietary/devicetree/qcom
-```
-
-
 
 # DEBUG
 
-## Kernel
+### Kernel
 ```sh
 mount -t debugfs none /sys/kernel/debug
 ```
 
-## RTC time
+### RTC time
 ```sh
 adb shell cat /sys/class/rtc/rtc0/since_epoch
 adb shell 'echo "$(od -An -tu8 /mnt/vendor/persist/time/ats_1 | tr -d " ")"'
@@ -183,14 +205,14 @@ adb shell svc wifi enable
 adb logcat -d | grep -aE "CTRL-EVENT-EAP|Certificate verification|not yet valid|SSL3 alert|SSID-TEMP-DISABLED"
 ```
 
-## Wifi
+### Wifi
 
 ```sh
 adb pull /data/misc/keystore/persistent.sqlite
 adb pull /data/misc/apexdata/com.android.wifi/WifiConfigStore.xml
 ```
 
-## Doze mode
+### Doze mode
 
 ```sh
 adb shell dumpsys deviceidle force-idle
@@ -202,7 +224,7 @@ adb shell dumpsys deviceidle whitelist +/-/=<package>
 adb shell dumpsys deviceidle whitelist =net.soti.mobicontrol.androidwork
 ```
 
-## xPCAT / QFIL
+### xPCAT / QFIL
 
 ```sh
 sudo apt install ./QualcommPackageManager3.3.0.131.7.Linux-x86.deb
@@ -220,14 +242,14 @@ qpm-cli --install pcat
 - QPM3: https://qpm.qualcomm.com/#/main/tools/details/QPM3
 - PCAT: https://docs.qualcomm.com/doc/80-88500-5/topic/install_product_configuration_assistant_tool_pcat.html
 
-## Alternatives
+### Alternatives
 
 ```sh
 sudo update-alternatives --config java
 sudo update-alternatives --config python
 ```
 
-## Brightness (symbols)
+### Brightness (symbols)
 
 ```
 mPersistBrightnessNitsForDefaultDisplay
@@ -238,7 +260,7 @@ ConvertLinearToGammaFloat()
 UpdateSlider() -> animateSliderTo()
 ```
 
-## SOTI
+### SOTI
 
 ```
 URL:          https://s006167.mobicontrolcloud.com/MobiControl/oauth/logon
@@ -248,7 +270,7 @@ Web login:    huynh_thanh / huynh_thanh
 Wifi:         Datalogic-RD-001 / Mc2Sol25!!
 ```
 
-## input (keypad)
+### input (keypad)
 
 ```
 input_report_key

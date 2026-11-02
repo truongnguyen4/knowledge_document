@@ -8,9 +8,9 @@ Overview notes on how `kernel/kernel_platform` is built: the GKI mixed build, co
 ![Kernel-related partitions and their contents](./resources/kernel_partitions.svg)
 
 | Partition | Contents |
-|---|---|
+| --- | --- |
 | **boot.img** | Kernel `Image` (core + all `=y` modules) + **generic ramdisk** (first-stage `init`) |
-| **vendor_boot.img** | **DTB** + **vendor ramdisk** (**first-stage** `.ko` + `modules.load` + ...) 
+| **vendor_boot.img** | **DTB** + **vendor ramdisk** (**first-stage** `.ko` + `modules.load` + ...) |
 | **vendor_dlkm.img** | **Second-stage** (`.ko` + `modules.load` + ...) |
 | **dtbo.img** | Device Tree Overlays (`.dtbo`) |
 
@@ -41,9 +41,10 @@ Overview notes on how `kernel/kernel_platform` is built: the GKI mixed build, co
 | `out/msm-waipio-parrot-gki/gki_kernel/common/.config` | **Full GKI** config |
 | `out/msm-waipio-parrot-gki/msm-kernel/.config` | Config used to build **modules + DTB** |
 | `.config` | The final resolved config after merging all fragments |
-| `out/msm-kernel/modules.list.msm.parrot` | **First-stage** module list|
-| `out/msm-kernel/modules.vendor_blocklist.msm.parrot` | Modules shipped in vendor_dlkm.img |
-
+| `out/msm-kernel/modules.list.msm.parrot` | **First-stage** module list |
+| `out/msm-kernel/modules.vendor_blocklist.msm.parrot` | Modules are blocked to load automatically |
+| `out/msm-kernel-parrot-consolidate/dist/modules.load` | Modules will be loaded |
+| `vendor_dlkm/lib/modules/modules.dep` | Modules dependency |
 
 ### Check on the device
 
